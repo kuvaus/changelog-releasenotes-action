@@ -37,7 +37,10 @@ async function main() {
 
     // Create a new release
     const { owner, repo } = github.context.repo;
-    const { ref_name: tagName } = github.context.ref;
+    //const { ref_name: tagName } = github.context.ref;
+    const ref = github.context.ref;
+    const refParts = ref.split('/');
+    const tagName = refParts[refParts.length - 1];
 
 
 
