@@ -13430,7 +13430,7 @@ async function main() {
     console.log(releaseBody)
     // Create a new release
     const { owner, repo } = github.context.repo;
-    const { ref_name: tagName } = github.context.ref;
+    const { ref_name: tagName2 } = github.context.ref;
 
     console.log(owner);
     console.log(repo);
