@@ -35,16 +35,10 @@ async function main() {
     // Read the filtered changelog
     const releaseBody = fs.readFileSync(filteredChangelogPath, 'utf-8');
 
-    console.log(releaseBody)
     // Create a new release
     const { owner, repo } = github.context.repo;
-    const { ref_name: tagName2 } = github.context.ref;
+    const { ref_name: tagName } = github.context.ref;
 
-    console.log(owner);
-    console.log(repo);
-    console.log(tagName2);
-    console.log(github.context.ref);
-    tagName = github.context.ref;
 
 
     const response = await octokit.rest.repos.createRelease({
