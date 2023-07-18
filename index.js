@@ -17,7 +17,9 @@ try {
   let filtered_lines = [];
   let start_processing = false;
 
-  const lines = fs.readFileSync('CHANGELOG.md', 'utf-8').split('\n');
+  const path = require('path');
+  const changelogPath = path.join(process.env.GITHUB_WORKSPACE, 'CHANGELOG.md');
+  const lines = fs.readFileSync(changelogPath, 'utf-8').split('\n');
   for(let line of lines) {
     if(line.startsWith("#### [v")) {
       if(start_processing) {
