@@ -9,6 +9,13 @@ outputs:
   time: # id of output
     description: 'The time we greeted you'
 runs:
-  using: 'node18'
-  main: 'dist/index.js'
+  using: 'composite'
+  steps:
+    - uses: actions/setup-node@v3
+      with:
+        node-version: 18
+    - run: npm ci
+    - run: npm test
+    - run: ${{ github.action_path }}/dist/index.js
+      shell: bash
 
