@@ -13436,7 +13436,7 @@ async function main() {
     console.log(repo);
     console.log(tagName2);
     console.log(github.context.ref);
-    tagName = "v0.0.2";
+    tagName = "v0.0.1";
 
 
     const response = await octokit.rest.repos.createRelease({
