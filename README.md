@@ -1,6 +1,10 @@
 # changelog-releasenotes-action
 
-This action prints "Hello World" or "Hello" + the name of a person to greet to the log.
+> **Warning**
+> Do not use! Does not work yet!
+
+
+This action generates release notes from changelog.md and uploads them into github release description automatically.
 
 ## Inputs
 
@@ -17,7 +21,7 @@ The time we greeted you.
 ## Example usage
 
 ```yaml
-uses: actions/hello-world-javascript-action@e76147da8e5c81eaf017dede5645551d4b94427b
+uses: actions/hello-world-javascript-action
 with:
   who-to-greet: 'Mona the Octocat'
 ```

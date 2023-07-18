@@ -1,16 +1,21 @@
 {
   "name": "changelog-releasenotes-action",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "This action generates release notes from changelog.md and uploads them into github release description automatically.",
+  "main": "dist/index.js",
   "scripts": {
+    "build": "ncc build index.js -o dist",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
-  "author": "",
+  "author": "kuvaus",
   "license": "ISC",
   "dependencies": {
     "@actions/core": "^1.10.0",
-    "@actions/github": "^5.1.1"
+    "@actions/github": "^5.1.1",
+    "@octokit/core": "^5.0.0"
+  },
+  "devDependencies": {
+    "@vercel/ncc": "^0.36.1"
   }
 }
