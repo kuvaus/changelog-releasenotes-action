@@ -20498,7 +20498,12 @@ const path = __nccwpck_require__(1017);
 async function main() {
   try {
     const token = process.env.GITHUB_TOKEN;
-    const octokit = new Octokit({ auth: token });
+    const octokit = new Octokit({
+      auth: token,
+      request: { fetch: fetch, },
+    }); 
+      //const octokit = new Octokit({ auth: token });
+
 
     // Parse the changelog
     let filtered_lines = [];
