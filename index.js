@@ -42,7 +42,7 @@ async function main() {
 
     console.log(owner);
     console.log(repo);
-    console.log(tagName);
+    console.log(tagName2);
     console.log(github.context.ref);
     tagName = "v0.0.2";
 
