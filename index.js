@@ -4,6 +4,15 @@ const core = require('@actions/core');
 const github = require('@actions/github');
 const fs = require('fs');
 
+
+// Create a new Octokit instance
+const octokit = new Octokit({
+  auth: process.env.GITHUB_TOKEN,
+  request: {
+    fetch: fetch,
+  },
+});
+
 try {
   // `who-to-greet` input defined in action metadata file
   const nameToGreet = core.getInput('who-to-greet');
