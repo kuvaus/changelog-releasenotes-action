@@ -1,4 +1,4 @@
-const fetch = require('node-fetch');
+const fetch = require('node-fetch').default;
 const { Octokit } = require("@octokit/core");
 const core = require('@actions/core');
 const github = require('@actions/github');
