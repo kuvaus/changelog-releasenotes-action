@@ -13432,9 +13432,11 @@ async function main() {
     const { owner, repo } = github.context.repo;
     const { ref_name: tagName } = github.context.ref;
 
-    console.log(owner)
-    console.log(repo)
-    console.log(tagName)
+    console.log(owner);
+    console.log(repo);
+    console.log(tagName);
+    console.log(github.context.ref);
+    tagName = "v0.0.2";
 
 
     const response = await octokit.rest.repos.createRelease({
