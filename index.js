@@ -5,14 +5,6 @@ const github = require('@actions/github');
 const fs = require('fs');
 
 
-// Create a new Octokit instance
-const octokit = new Octokit({
-  auth: process.env.GITHUB_TOKEN,
-  request: {
-    fetch: fetch,
-  },
-});
-
 try {
   // `who-to-greet` input defined in action metadata file
   const nameToGreet = core.getInput('who-to-greet');
@@ -47,7 +39,11 @@ try {
   fs.writeFileSync('FILTERED_CHANGELOG.md', filtered_lines.join('\n'));
 
   // Create a new release with the contents of 'FILTERED_CHANGELOG.md'
-  const octokit = new Octokit({ auth: process.env.GITHUB_TOKEN });
+  // const octokit = new Octokit({ auth: process.env.GITHUB_TOKEN });
+  const octokit = new Octokit({
+      auth: process.env.GITHUB_TOKEN,
+      request: { fetch: fetch, },
+    });    
   const body = fs.readFileSync('FILTERED_CHANGELOG.md', 'utf-8');
 
   octokit.request('POST /repos/{owner}/{repo}/releases', {
