@@ -13432,6 +13432,7 @@ async function main() {
 
     // Read the filtered changelog
     const releaseBody = fs.readFileSync(filteredChangelogPath, 'utf-8');
+    console.log(releaseBody);
 
     // Create a new release
     const { owner, repo } = github.context.repo;
@@ -13458,9 +13459,11 @@ async function main() {
       owner,
       repo,
     });
+    console.log(releases);
     
     // Check if your release exists
     let release = releases.data.find(r => r.tag_name === tagName);
+    console.log(release);
     
     // If release exists, update it
     if(release) {
