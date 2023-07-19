@@ -13448,7 +13448,7 @@ async function main() {
     
     
     console.log(github.context.ref);
-    console.log(refParts);
+    //console.log(refParts);
     console.log(tagName);
 
 
