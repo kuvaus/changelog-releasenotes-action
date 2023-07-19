@@ -13422,7 +13422,7 @@ async function main() {
           continue;
         }
       }
-      if(start_processing && index >= 2) {
+      if(start_processing && index >= 3) {
         filtered_lines.push(line);
       }
     }
@@ -13438,14 +13438,15 @@ async function main() {
     const { owner, repo } = github.context.repo;
     //const { ref_name: tagName } = github.context.ref;
     const ref = github.context.ref;
-    //const refParts = ref.split('/');
+    const refParts = ref.split('/');
+    tagName = refParts[refParts.length - 1];
     //const tagName = refParts[refParts.length - 1];
     console.log(tagName);
     // Check if ref is a tag
-    if(ref.startsWith('refs/tags/')) {
-      const refParts = ref.split('/');
-      tagName = refParts[refParts.length - 1];
-    }
+    //if(ref.startsWith('refs/tags/')) {
+    //  const refParts = ref.split('/');
+    //  tagName = refParts[refParts.length - 1];
+    //}
     
     
     console.log(github.context.ref);
@@ -13459,11 +13460,11 @@ async function main() {
       owner,
       repo,
     });
-    console.log(releases);
+    //console.log(releases);
     
     // Check if your release exists
     let release = releases.data.find(r => r.tag_name === tagName);
-    console.log(release);
+    //console.log(release);
     
     // If release exists, update it
     if(release) {
