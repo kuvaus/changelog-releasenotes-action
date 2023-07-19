@@ -10,6 +10,20 @@ outputs:
   time: # id of output
     description: 'The time we greeted you'
 
+# runs:
+#   using: node16
+#   main: dist/index.js
+
 runs:
-  using: node16
-  main: dist/index.js
+  using: composite
+  steps:
+
+    - name: Setup Node
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ inputs.node-version || '18' }}
+
+    - name: Action
+      id: action
+      run: node ${{ github.action_path }}/dist/index.js
+      shell: ${{ (runner.os == 'Windows' && 'pwsh') || 'bash' }}
