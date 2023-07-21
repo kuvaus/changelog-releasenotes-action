@@ -60,7 +60,7 @@ jobs:
 
 By default the action wants a `CHANGELOG.md` file in the style of keepachangelog format:
 
-```md
+```txt
 # Changelog
 
 All notable changes to this project will be documented in this file.
@@ -96,7 +96,7 @@ You can also use the format in the style of the auto-changelog tool by specifyin
 
 
 
-```md
+```txt
 ## Changelog
 
 #### [Upcoming](https///github.com/kuvaus/changelog-releasenotes-action/compare/v1.0.1...HEAD)
