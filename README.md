@@ -43,11 +43,11 @@ jobs:
           # Below are the optional options you can change and their default values
           changelog: 'CHANGELOG.md'  # Changelog file name for input
           filtered_changelog: 'FILTERED_CHANGELOG.md' # The output name release notes file
-          changelog_format: 'keepachangelog' # 'Other' to change the defaults to the other format
+          changelog_format: 'keepachangelog' # 'auto-changelog' to change the defaults to the other format
           start_token: '## [' # The start tag of the release notes
           end_token:   '## [' # The end tag of the release notes
           specific_tag: ''  # Use specific tag (e.g. v0.1.2) instead of the newest
-          use_date: 'false' # Extract the date to the release notes
+          skip_n_lines: '0' # Skip first N lines in parsing
           upcoming_release: 'false' # Create prerelease with [Upcoming] section
           create_release: 'true' # make a new release if one does not exist
           update_release: 'true' # update existing release
@@ -58,7 +58,7 @@ jobs:
 
 ## File format
 
-By default the action wants a `CHANGELOG.md` file in the style of keepachangelog format:
+By default the action wants a `CHANGELOG.md` file in the style of **keepachangelog** format:
 
 ```txt
 # Changelog
@@ -92,7 +92,7 @@ All notable changes to this project will be documented in this file.
 - Keepachangelog feature(#1).
 ```
 
-You can also use the format in the style of the auto-changelog tool by specifying `changelog_format: 'other'`. Below is an example of the other format:
+Another option is the **auto-changelog** format. You can also use the format in the style of the auto-changelog tool by specifying `changelog_format: 'auto-changelog'`. Below is an example of the other format:
 
 
 

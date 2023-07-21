@@ -23,8 +23,8 @@ inputs:
   specific_tag:
     description: 'Extract release notes from a specific tag (e.g. v0.1.2) instead of the newest one, default: empty'
     required: false
-  use_date:
-    description: 'Extract the date to the release notes'
+  skip_n_lines:
+    description: 'Skip first N lines in parsing'
     required: false
   upcoming_release:
     description: 'Set this to `true` to get release notes from the [Upcoming] section instead of the first tagged release'
@@ -72,7 +72,7 @@ runs:
         INPUT_START_TOKEN:        ${{ inputs.start_token }}
         INPUT_END_TOKEN:          ${{ inputs.end_token }}
         INPUT_SPECIFIC_TAG:       ${{ inputs.specific_tag }}
-        INPUT_USE_DATE:           ${{ inputs.use_date }}
+        INPUT_SKIP_N_LINES:       ${{ inputs.skip_n_lines }}
         INPUT_UPCOMING_RELEASE:   ${{ inputs.upcoming_release }}
         INPUT_CREATE_RELEASE:     ${{ inputs.create_release }}
         INPUT_UPDATE_RELEASE:     ${{ inputs.update_release }}

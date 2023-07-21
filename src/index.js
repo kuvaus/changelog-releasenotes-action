@@ -19,10 +19,10 @@ async function parse_options(file_path = process.env.GITHUB_WORKSPACE || "./") {
         start_token:          core.getInput('start_token')        || (toggle ? '## [' : '#### [v'),
         end_token:            core.getInput('end_token')          || (toggle ? '## [' : '#### [v'),
         specific_tag:         core.getInput('specific_tag')       || '',
-        use_date:             core.getInput('use_date')           || (toggle ? 'true' : 'false'),
         upcoming_release:     core.getInput('upcoming_release')   || 'false',
         create_release:       core.getInput('create_release')     || 'true',
-        update_release:       core.getInput('update_release')     || 'true'
+        update_release:       core.getInput('update_release')     || 'true',
+        skip_n_lines: parseInt(core.getInput('skip_n_lines'))     || (toggle ? 0 : 2)
     };
 
     options.changelog_path = path.join(file_path, options.changelog);
@@ -50,8 +50,6 @@ async function parse_changelog(options) {
     let index = 0;
     //let extracted_version_tag;
     
-    // skip first 2 lines because those contain the date string
-    let skip_n_lines = (options.use_date === 'true' ? 0 : 2);
 
     const lines = fs.readFileSync(options.changelog_path, 'utf-8').split('\n');
     for(let line of lines) {
@@ -64,13 +62,12 @@ async function parse_changelog(options) {
         //this part extracts the version tag (optional)
         //const version_tag_line = line.match(/v[\d\.]+/);
         //extracted_version_tag = version_tag_line[0];
-        
         started_processing = true;
         index = 0;
         continue;     
       }
       
-      if(started_processing && index > skip_n_lines) {
+      if(started_processing && index > options.skip_n_lines) {
         filtered_lines.push(line);
       }      
     }
