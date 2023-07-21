@@ -13,14 +13,18 @@ inputs:
     description: 'The output path of the release notes file'
     required: true
     default: 'FILTERED_CHANGELOG.md'
+  changelog_format:
+    description: 'Changelog format, keepachangelog or other'
+    required: true
+    default: 'keepachangelog'
   start_token:
     description: 'The start tag of the release notes'
-    required: true
-    default: '#### [v'
+    required: false
+    default: '## ['
   end_token:
     description: 'The end tag of the release notes'
-    required: true
-    default: '#### [v'
+    required: false
+    default: '## ['
   specific_tag:
     description: 'Extract release notes from a specific tag (e.g. v0.1.2) instead of the newest one, default: empty'
     required: false
@@ -28,7 +32,7 @@ inputs:
   use_date:
     description: 'Extract the date to the release notes'
     required: true
-    default: 'false'
+    default: 'true'
   upcoming_release:
     description: 'Set this to `true` to get release notes from the [Upcoming] section instead of the first tagged release'
     required: true
@@ -74,6 +78,7 @@ runs:
       env:
         INPUT_CHANGELOG:          ${{ inputs.changelog }}
         INPUT_FILTERED_CHANGELOG: ${{ inputs.filtered_changelog }}
+        INPUT_CHANGELOG_FORMAT:   ${{ inputs.changelog_format }}
         INPUT_START_TOKEN:        ${{ inputs.start_token }}
         INPUT_END_TOKEN:          ${{ inputs.end_token }}
         INPUT_SPECIFIC_TAG:       ${{ inputs.specific_tag }}

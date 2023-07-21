@@ -13400,16 +13400,21 @@ const path = __nccwpck_require__(1017);
 
 async function parse_options(file_path = process.env.GITHUB_WORKSPACE || "./") {
 
+
+    let changelog_format = core.getInput('changelog_format') || 'keepachangelog';
+    let toggle = (changelog_format === 'keepachangelog');
+
     const options = {
-      changelog:            core.getInput('changelog')          || 'CHANGELOG.md',
-      filtered_changelog:   core.getInput('filtered_changelog') || 'FILTERED_CHANGELOG.md',
-      start_token:          core.getInput('start_token')        || '#### [v',
-      end_token:            core.getInput('end_token')          || '#### [v',
-      specific_tag:         core.getInput('specific_tag')       || '',
-      use_date:             core.getInput('use_date')           || 'false',
-      upcoming_release:     core.getInput('upcoming_release')   || 'false',
-      create_release:       core.getInput('create_release')     || 'true',
-      update_release:       core.getInput('update_release')     || 'true'
+        changelog:            core.getInput('changelog')          || 'CHANGELOG.md',
+        filtered_changelog:   core.getInput('filtered_changelog') || 'FILTERED_CHANGELOG.md',
+        changelog_format:     core.getInput('changelog_format')   || 'keepachangelog',
+        start_token:          core.getInput('start_token')        || (toggle ? '## [' : '#### [v'),
+        end_token:            core.getInput('end_token')          || (toggle ? '## [' : '#### [v'),
+        specific_tag:         core.getInput('specific_tag')       || '',
+        use_date:             core.getInput('use_date')           || (toggle ? 'true' : 'false'),
+        upcoming_release:     core.getInput('upcoming_release')   || 'false',
+        create_release:       core.getInput('create_release')     || 'true',
+        update_release:       core.getInput('update_release')     || 'true'
     };
 
     options.changelog_path = path.join(file_path, options.changelog);
@@ -13422,10 +13427,14 @@ async function parse_options(file_path = process.env.GITHUB_WORKSPACE || "./") {
 async function parse_changelog(options) {
     
     // Change start_token accordingly
-    if (options.upcoming_release  === 'true' && options.start_token === '#### [v') {
-        options.start_token = '#### ['    
-    }
-    
+    if (options.upcoming_release  === 'true') {
+        if (options.start_token === '#### [v') {
+            options.start_token = '#### ['    
+        }
+        else if (options.changelog_format === 'keepachangelog') {
+            options.start_token = '## [Unreleased]'    
+        }
+     }
     
     // Parse the changelog
     let filtered_lines = [];

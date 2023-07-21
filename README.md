@@ -1,13 +1,9 @@
 # changelog-releasenotes-action
 
-> **Warning**
-> Do not use! Does not work yet!
+This action generates release notes from `CHANGELOG.md` and uploads them into github release description automatically.
 
 
-This action generates release notes from changelog.md and uploads them into github release description automatically.
-
-
-## Example usage
+## Usage
 
 
 ```yaml
@@ -24,50 +20,14 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.DEPLOY_KEY }}
 ```
 
-## Inputs
+The simple script above is enough for most usage. It extracts the changes of newest tag from `CHANGELOG.md`, skips the date, and uploads them into github release description body. If no release has been specified, it will create one, but if a release with the tag already exists, it will modify its release description.
 
-#### `who-to-greet`
-**optional** The name of the person to greet. Default `"World"`.
-#### `changelog`
-**optional** The input path of the changelog file. Default: `"CHANGELOG.md"`.
+## Options
 
-#### `filtered_changelog`
-**optional** The output path of the release notes file. Default: `"FILTERED_CHANGELOG.md"`.
-
-#### `start_token`
-**optional** The start tag of the release notes. Default: `"#### [v"`.
-
-#### `end_token`
-**optional** The end tag of the release notes. Default: `"#### [v"`.
-
-#### `specific_tag`
-**optional** Extract release notes from a specific tag (e.g. v0.1.2) instead of the newest one.  Default: `"false"`.
-
-#### `use_date`
-  description: Extract the date to the release notes. Default: `"false"`.
-
-#### `upcoming_release`
-**optional** Set this to `true` to get release notes from the [Upcoming] section instead of the first tagged release. Default: `"false"`.
-
-#### `create_release`
-**optional** Set this to `true` to make a new release if one does not exist. Default: `"true"`.
-
-#### `update_release`
-**optional** Set this to `true` to update a release. Default: `"true"`.
-
-## Outputs
-
-### `releasenotes`
-
-The filtered release notes.
-
-Here is a more detailed version with all the possible options:
+Version 2 `kuvaus/changelog-releasenotes-action@v2` uses Node 18. There is also an optional old version 1 `kuvaus/changelog-releasenotes-action@v1` that uses Node 16.
 
 
-
-
-
-
+Optionally there are `inputs` that you can change to modify the actions behavior. The action also `outputs` the filtered release notes as `releasenotes`. Below is a more detailed version with all the possible options:
 
 ```yaml
 jobs:
@@ -80,24 +40,87 @@ jobs:
       - name: Generate release notes
         uses: kuvaus/changelog-releasenotes-action@v2
         with:
-          # The input path of the changelog file. Default: `CHANGELOG.md`
-          changelog: CHANGELOG.md
-          # The output path of the release notes file
-          filtered_changelog: FILTERED_CHANGELOG.md
-          # The start tag of the release notes
-          start_token: "#### [v"
-          # The end tag of the release notes
-          end_token: "#### [v"
-          # Extract release notes from a specific tag (e.g. v0.1.2) instead of the newest one. Set to v0.1.2 instead of `false`
-          specific_tag: false
-          # Extract the date to the release notes (otherwise skips the first two lines after the start_token).
-          use_date: false
-          # Set this to `true` to get release notes from the [Upcoming] section instead of the first tagged release. Sets the start_tag to  #### [ instead
-          upcoming_release: false
-          # Set this to `true` to make a new release if one does not exist
-          create_release: true
-          # Set this to `true` to update a release
-          update_release: true
+          # Below are the optional options you can change and their default values
+          changelog: 'CHANGELOG.md'  # Changelog file name for input
+          filtered_changelog: 'FILTERED_CHANGELOG.md' # The output name release notes file
+          changelog_format: 'keepachangelog' # 'Other' to change the defaults to the other format
+          start_token: '## [' # The start tag of the release notes
+          end_token:   '## [' # The end tag of the release notes
+          specific_tag: ''  # Use specific tag (e.g. v0.1.2) instead of the newest
+          use_date: 'false' # Extract the date to the release notes
+          upcoming_release: 'false' # Create prerelease with [Upcoming] section
+          create_release: 'true' # make a new release if one does not exist
+          update_release: 'true' # update existing release
         env:
           GITHUB_TOKEN: ${{ secrets.DEPLOY_KEY }}
 ```
+
+
+## File format
+
+By default the action wants a `CHANGELOG.md` file in the style of keepachangelog format:
+
+```md
+# Changelog
+
+All notable changes to this project will be documented in this file.
+
+## [Unreleased]
+
+## [1.1.1] - 2023-03-05
+
+### Added
+
+- Keepachangelog feature(#3).
+
+### Fixed
+
+- Keepachangelog feature(#2).
+
+### Changed
+
+- Keepachangelog features
+
+### Removed
+
+- Unused keepachangelog features
+
+## [1.1.0] - 2019-02-15
+
+### Added
+
+- Keepachangelog feature(#1).
+```
+
+You can also use the format in the style of the auto-changelog tool by specifying `changelog_format: 'other'`. Below is an example of the other format:
+
+
+
+```md
+## Changelog
+
+#### [Upcoming](https///github.com/kuvaus/changelog-releasenotes-action/compare/v1.0.1...HEAD)
+
+- Upcoming commit
+
+#### [v1.0.1](https://github.com/kuvaus/changelog-releasenotes-action/releases/tag/v1.0.1)
+
+> 21 July 2023
+
+- Add this feature
+- Add that feature
+
+#### [v1.0.0](https://github.com/kuvaus/changelog-releasenotes-action/releases/tag/v1.0.0)
+
+> 20 July 2023
+
+- Version 1.0.0 feature
+```
+
+
+If you want to use your own formatting for the `CHANGELOG.md`, just change the `start_token` and `end_token` from the options to your liking.
+
+
+## License
+
+This project is licensed under the MIT [License](https://github.com/kuvaus/changelog-releasenotes-action/blob/main/LICENSE)
