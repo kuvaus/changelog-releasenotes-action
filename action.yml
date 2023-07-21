@@ -68,5 +68,5 @@ runs:
         node-version: ${{ inputs.node-version || '18' }}
 
     - name: Action
-      main: node ${{ github.action_path }}/dist/index.js
+      run: node ${{ github.action_path }}/dist/index.js
       shell: ${{ (runner.os == 'Windows' && 'pwsh') || 'bash' }}
