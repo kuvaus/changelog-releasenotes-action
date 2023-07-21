@@ -13399,94 +13399,31 @@ const path = __nccwpck_require__(1017);
 
 async function parse_options() {
 
-    /*
-    let changelog = core.getInput('changelog', {required: true});
-    if (!changelog) {
-      changelog = 'CHANGELOG.md';
-    }
-    let filtered_changelog = core.getInput('filtered_changelog');
-    if (!filtered_changelog) {
-      filtered_changelog = 'FILTERED_CHANGELOG.md';
-    }
-    let start_token = core.getInput('start_token');
-    if (!start_token) {
-      start_token = '#### [v';
-    }
-    let end_token = core.getInput('end_token');
-    if (!end_token) {
-      end_token = '#### [v';
-    }
-    
-    let specific_tag = true;
-    if (core.getInput('specific_tag') === 'false') {
-        specific_tag = core.getInput('specific_tag');
-    }
- 
-    
-    let use_date = core.getInput('use_date') === 'true';
-    let upcoming_release = core.getInput('upcoming_release') === 'true';
-    let create_release = core.getInput('create_release') === 'true';
-    let update_release = core.getInput('update_release') === 'true';
-    
-    
-    let options = {
-
-        changelog:          changelog,
-        //changelog_path:     path.join(process.env.GITHUB_WORKSPACE, changelog),
-        changelog_path:     path.join("./", changelog),
-        filtered_changelog: filtered_changelog,
-        //filtered_changelog_path: path.join(process.env.GITHUB_WORKSPACE, filtered_changelog),
-        filtered_changelog_path:     path.join("./", filtered_changelog),
-        start_token:        start_token,
-        end_token:          end_token,
-        specific_tag:       specific_tag,
-        use_date:           use_date,
-        upcoming_release:   upcoming_release,
-        create_release:     create_release,
-        update_release:     update_release
-    }  
-    */
-    
     
     let file_path = process.env.GITHUB_WORKSPACE;
-    if (file_path === ""){
+    if (file_path === undefined){
         file_path = "./";
     }
-    file_path = "./";
     
-    let options = {
-      changelog:            core.getInput('changelog'),
-      filtered_changelog:   core.getInput('filtered_changelog'),
-      start_token:          core.getInput('start_token'),
-      end_token:            core.getInput('end_token'),
-      specific_tag:         core.getInput('specific_tag'),
-      use_date:             (core.getInput('use_date') === 'true'),
-      upcoming_release:     (core.getInput('upcoming_release') === 'true'),
-      create_release:       (core.getInput('create_release') === 'true'),
-      update_release:       (core.getInput('update_release') === 'true')
-    }; 
-    
-    
-      options.changelog_path = path.join(file_path, options.changelog);
-      options.filtered_changelog_path = path.join(file_path, options.filtered_changelog);
-    
-    let default_options = {
 
-        changelog:          "CHANGELOG.md",
-        filtered_changelog: "FILTERED_CHANGELOG.md",
-        start_token:        "#### [v",
-        end_token:          "#### [v",
-        specific_tag:       false,
-        use_date:           false,
-        upcoming_release:   false,
-        create_release:     true,
-        update_release:     true
-    };  
-      default_options.changelog_path = path.join(file_path, default_options.changelog);
-      default_options.filtered_changelog_path = path.join(file_path, default_options.filtered_changelog);
-     
+    let options = {
+      changelog:            core.getInput('changelog', {required: false}) || 'CHANGELOG.md',
+      filtered_changelog:   core.getInput('filtered_changelog', {required: false}) || 'FILTERED_CHANGELOG.md',
+      start_token:          core.getInput('start_token', {required: false}) || '#### [v',
+      end_token:            core.getInput('end_token', {required: false}) || '#### [v',
+      specific_tag:         core.getInput('specific_tag', {required: false}) || '',
+      use_date:             core.getInput('use_date', {required: false}) === 'false',
+      upcoming_release:     core.getInput('upcoming_release', {required: false}) === 'true',
+      create_release:      (core.getInput('create_release', {required: false}) !== 'false'),
+      update_release:      (core.getInput('update_release', {required: false}) !== 'false')
+      //create_release:       core.getInput('create_release', {required: false}) === 'true',
+      //update_release:       core.getInput('update_release', {required: false}) === 'true'
+    }; 
+
+    options.changelog_path = path.join(file_path, options.changelog);
+    options.filtered_changelog_path = path.join(file_path, options.filtered_changelog);
+    
     console.log(options);
-    //return default_options;
     return options;
 
 }
@@ -13567,7 +13504,7 @@ async function create_release(release_notes, options) {
     let version_tag = refParts[refParts.length - 1];
     
 
-    if (options.specific_tag !== 'false') {
+    if (options.specific_tag !== '') {
         version_tag = options.specific_tag;
     } 
     //console.log(version_tag);
