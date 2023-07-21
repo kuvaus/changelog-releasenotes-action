@@ -13399,8 +13399,8 @@ const path = __nccwpck_require__(1017);
 
 async function parse_options() {
 
-    
-    let changelog = core.getInput('changelog');
+    /*
+    let changelog = core.getInput('changelog', {required: true});
     if (!changelog) {
       changelog = 'CHANGELOG.md';
     }
@@ -13417,7 +13417,7 @@ async function parse_options() {
       end_token = '#### [v';
     }
     
-    specific_tag = true;
+    let specific_tag = true;
     if (core.getInput('specific_tag') === 'false') {
         specific_tag = core.getInput('specific_tag');
     }
@@ -13445,13 +13445,35 @@ async function parse_options() {
         create_release:     create_release,
         update_release:     update_release
     }  
-
+    */
+    
+    
+    let file_path = process.env.GITHUB_WORKSPACE;
+    if (file_path === ""){
+        file_path = "./";
+    }
+    file_path = "./";
+    
+    let options = {
+      changelog:            core.getInput('changelog'),
+      filtered_changelog:   core.getInput('filtered_changelog'),
+      start_token:          core.getInput('start_token'),
+      end_token:            core.getInput('end_token'),
+      specific_tag:         core.getInput('specific_tag'),
+      use_date:             (core.getInput('use_date') === 'true'),
+      upcoming_release:     (core.getInput('upcoming_release') === 'true'),
+      create_release:       (core.getInput('create_release') === 'true'),
+      update_release:       (core.getInput('update_release') === 'true')
+    }; 
+    
+    
+      options.changelog_path = path.join(file_path, options.changelog);
+      options.filtered_changelog_path = path.join(file_path, options.filtered_changelog);
+    
     let default_options = {
 
         changelog:          "CHANGELOG.md",
-        changelog_path:     path.join(process.env.GITHUB_WORKSPACE, changelog),
         filtered_changelog: "FILTERED_CHANGELOG.md",
-        filtered_changelog_path: path.join(process.env.GITHUB_WORKSPACE, filtered_changelog),
         start_token:        "#### [v",
         end_token:          "#### [v",
         specific_tag:       false,
@@ -13459,12 +13481,14 @@ async function parse_options() {
         upcoming_release:   false,
         create_release:     true,
         update_release:     true
-    }  
-
+    };  
+      default_options.changelog_path = path.join(file_path, default_options.changelog);
+      default_options.filtered_changelog_path = path.join(file_path, default_options.filtered_changelog);
      
-    core.debug(`options.changelog = '${options.changelog}'`);
-    return default_options;
-    
+    console.log(options);
+    //return default_options;
+    return options;
+
 }
 
 async function parse_changelog(options) {
@@ -13482,10 +13506,9 @@ async function parse_changelog(options) {
     //let extracted_version_tag;
     
     // skip first 2 lines because those contain the date string
+    let skip_n_lines = 2;
     if (options.use_date) {
         skip_n_lines = 0;
-    } else {
-        skip_n_lines = 2;
     }
 
     const lines = fs.readFileSync(options.changelog_path, 'utf-8').split('\n');
@@ -13510,7 +13533,7 @@ async function parse_changelog(options) {
       }      
     }
     
-    release_notes = filtered_lines.join('\n');
+    let release_notes = filtered_lines.join('\n');
     
     return release_notes;        
 }
@@ -13541,10 +13564,10 @@ async function create_release(release_notes, options) {
     // get the release tag from the refs
     const ref = github.context.ref;
     const refParts = ref.split('/');
-    version_tag = refParts[refParts.length - 1];
+    let version_tag = refParts[refParts.length - 1];
     
 
-    if (!specific_tag) {
+    if (options.specific_tag !== 'false') {
         version_tag = options.specific_tag;
     } 
     //console.log(version_tag);
@@ -13563,7 +13586,7 @@ async function create_release(release_notes, options) {
        
     // If release exists, update it
     if(release && options.update_release) {
-      const updatedRelease = await octokit.rest.repos.updateRelease({
+      const updated_release = await octokit.rest.repos.updateRelease({
         owner,
         repo,
         release_id: release.id,
@@ -13595,21 +13618,10 @@ async function create_release(release_notes, options) {
 async function main() {
      
   let options = await parse_options();
-  core.debug(options);
-
   let release_notes =  await parse_changelog(options);
-
-  try {
+  
     write_filtered_changelog(release_notes, options);
-  } catch (error) {
-    core.setFailed(`Error writing filtered changelog: ${error.message}`);
-  }
-
-  try {
     let success = await create_release(release_notes, options);
-  } catch (error) {
-    core.setFailed(`Error creating release: ${error.message}`);
-  }
 
   core.setOutput("releasenotes", release_notes);
   

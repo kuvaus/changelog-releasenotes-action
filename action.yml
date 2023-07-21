@@ -5,58 +5,42 @@ author: 'kuvaus'
 
 
 inputs:
-
-#
-# All of these inputs are optional
-#
-
   changelog:
     description: 'The input path of the changelog file. Default: `CHANGELOG.md`'
-    required: false
-    default: 'CHANGELOGS.md'
-
+    required: true
+    required: true
+    default: 'CHANGELOG.md'
   filtered_changelog:
     description: 'The output path of the release notes file'
-    required: false
+    required: true
     default: 'FILTERED_CHANGELOG.md'
-
   start_token:
     description: 'The start tag of the release notes'
-    required: false
+    required: true
     default: '#### [v'
-
   end_token:
     description: 'The end tag of the release notes'
-    required: false
+    required: true
     default: '#### [v'
-
   specific_tag:
     description: 'Extract release notes from a specific tag (e.g. v0.1.2) instead of the newest one, default: false'
-    required: false
+    required: true
     default: 'false'
-    
   use_date:
     description: 'Extract the date to the release notes'
-    required: false
+    required: true
     default: 'false'
-    
   upcoming_release:
     description: 'Set this to `true` to get release notes from the [Upcoming] section instead of the first tagged release'
-    required: false
+    required: true
     default: 'false'
-
-#
-# These control if the action makes a new release
-#
-
   create_release:
     description: 'Set this to `true` to make a new release if one does not exist'
-    required: false
+    required: true
     default: 'true'
-    
   update_release:
     description: 'Set this to `true` to update a release'
-    required: false
+    required: true
     default: 'true'
     
 #
@@ -64,7 +48,6 @@ inputs:
 #
 
 outputs:
-
   releasenotes:
     description: 'The filtered release notes'
 
