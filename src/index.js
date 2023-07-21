@@ -10,10 +10,10 @@ async function parse_options() {
     let options = {
 
         changelog:          core.getInput('changelog'),
-        changelog_path:     path.join(process.env.GITHUB_WORKSPACE, changelog),
+        changelog_path:     path.join(process.env.GITHUB_WORKSPACE, core.getInput('changelog')),
  
         filtered_changelog: core.getInput('filtered_changelog'),
-        filtered_changelog_path: path.join(process.env.GITHUB_WORKSPACE, filtered_changelog),
+        filtered_changelog_path: path.join(process.env.GITHUB_WORKSPACE, core.getInput('filtered_changelog')),
     
         start_token:        core.getInput('start_token'),
         end_token:          core.getInput('end_token'),

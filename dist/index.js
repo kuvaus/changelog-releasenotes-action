@@ -13402,10 +13402,10 @@ async function parse_options() {
     let options = {
 
         changelog:          core.getInput('changelog'),
-        changelog_path:     path.join(process.env.GITHUB_WORKSPACE, changelog),
+        changelog_path:     path.join(process.env.GITHUB_WORKSPACE, core.getInput('changelog')),
  
         filtered_changelog: core.getInput('filtered_changelog'),
-        filtered_changelog_path: path.join(process.env.GITHUB_WORKSPACE, filtered_changelog),
+        filtered_changelog_path: path.join(process.env.GITHUB_WORKSPACE, core.getInput('filtered_changelog')),
     
         start_token:        core.getInput('start_token'),
         end_token:          core.getInput('end_token'),
@@ -13557,7 +13557,7 @@ async function main() {
    write_filtered_changelog(release_notes, options);
    let success = await create_release(release_notes, options);
     
-   core.setOutput("release_notes", release_notes)
+   core.setOutput("releasenotes", release_notes)
     
   } catch (error) {
     core.setFailed(error.message);
