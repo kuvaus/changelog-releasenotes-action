@@ -28,7 +28,7 @@ async function parse_options(file_path = process.env.GITHUB_WORKSPACE || "./") {
     options.changelog_path = path.join(file_path, options.changelog);
     options.filtered_changelog_path = path.join(file_path, options.filtered_changelog);
     
-    //console.log(options);
+    console.log(options);
     return options;
 }
 
@@ -152,7 +152,7 @@ try {
     write_filtered_changelog(release_notes, options);
     //release_notes = await read_filtered_changelog(options);
     await create_release(release_notes, options);
-
+    console.log(release_notes);
     core.setOutput("releasenotes", release_notes);
   
   } catch (error) {

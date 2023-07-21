@@ -19,11 +19,11 @@ inputs:
     default: 'keepachangelog'
   start_token:
     description: 'The start tag of the release notes'
-    required: false
+    required: true
     default: '## ['
   end_token:
     description: 'The end tag of the release notes'
-    required: false
+    required: true
     default: '## ['
   specific_tag:
     description: 'Extract release notes from a specific tag (e.g. v0.1.2) instead of the newest one, default: empty'
