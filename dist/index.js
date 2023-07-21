@@ -13437,7 +13437,7 @@ async function parse_changelog(options) {
     //let extracted_version_tag;
     
     // skip first 2 lines because those contain the date string
-    if (use_date) {
+    if (options.use_date) {
         skip_n_lines = 0;
     } else {
         skip_n_lines = 2;
