@@ -126,7 +126,7 @@ async function create_release(release_notes, options) {
   //try {    
     
     const token = process.env.GITHUB_TOKEN; 
-    //const octokit = new Octokit({ auth: token });
+    //sconst octokit = new Octokit({ auth: token });
     const octokit = new Octokit({ auth: token, request: {fetch: fetch, } });
     
     // Create a new release
