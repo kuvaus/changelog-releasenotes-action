@@ -13399,7 +13399,7 @@ const path = __nccwpck_require__(1017);
 
 async function parse_options() {
 
-
+    
     let changelog = core.getInput('changelog');
     if (!changelog) {
       changelog = 'CHANGELOG.md';
@@ -13432,10 +13432,10 @@ async function parse_options() {
 
         changelog:          changelog,
         changelog_path:     path.join(process.env.GITHUB_WORKSPACE, changelog),
- 
+        //changelog_path:     path.join("./", changelog),
         filtered_changelog: filtered_changelog,
         filtered_changelog_path: path.join(process.env.GITHUB_WORKSPACE, filtered_changelog),
-    
+        //filtered_changelog_path:     path.join("./", filtered_changelog),
         start_token:        start_token,
         end_token:          end_token,
         specific_tag:       specific_tag,
@@ -13446,7 +13446,6 @@ async function parse_options() {
     }  
      
     core.debug(`options.changelog = '${options.changelog}'`);
-    
     return options;
     
 }
@@ -13484,12 +13483,12 @@ async function parse_changelog(options) {
         //const version_tag_line = line.match(/v[\d\.]+/);
         //extracted_version_tag = version_tag_line[0];
         
-        start_processing = true;
+        started_processing = true;
         index = 0;
         continue;     
       }
       
-      if(start_processing && index > skip_n_lines) {
+      if(started_processing && index > skip_n_lines) {
         filtered_lines.push(line);
       }      
     }
@@ -13577,19 +13576,11 @@ async function create_release(release_notes, options) {
 
 
 async function main() {
-    
-  try {
-    let options = await parse_options();
-  } catch (error) {
-    core.setFailed(`Error parsing options: ${error.message}`);
-  }
+     
+  let options = await parse_options();
+  core.debug(options);
 
-  let release_notes;
-  try {
-    release_notes =  await parse_changelog(options);
-  } catch (error) {
-    core.setFailed(`Error parsing changelog: ${error.message}`);
-  }
+  let release_notes =  await parse_changelog(options);
 
   try {
     write_filtered_changelog(release_notes, options);
