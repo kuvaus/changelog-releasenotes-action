@@ -13398,22 +13398,50 @@ const path = __nccwpck_require__(1017);
 
 
 async function parse_options() {
+
+
+    let changelog = core.getInput('changelog');
+    if (!changelog) {
+      changelog = 'CHANGELOG.md';
+    }
+    let filtered_changelog = core.getInput('filtered_changelog');
+    if (!filtered_changelog) {
+      filtered_changelog = 'FILTERED_CHANGELOG.md';
+    }
+    let start_token = core.getInput('start_token');
+    if (!start_token) {
+      start_token = '#### [v';
+    }
+    let end_token = core.getInput('end_token');
+    if (!end_token) {
+      end_token = '#### [v';
+    }
+    
+    if (core.getInput('specific_tag') === 'false') {
+        specific_tag = core.getInput('specific_tag');
+    }
+    
+    let use_date = core.getInput('use_date') === 'true';
+    let upcoming_release = core.getInput('upcoming_release') === 'true';
+    let create_release = core.getInput('create_release') === 'true';
+    let update_release = core.getInput('update_release') === 'true';
+    
     
     let options = {
 
-        changelog:          core.getInput('changelog'),
-        changelog_path:     path.join(process.env.GITHUB_WORKSPACE, core.getInput('changelog')),
+        changelog:          changelog,
+        changelog_path:     path.join(process.env.GITHUB_WORKSPACE, changelog),
  
-        filtered_changelog: core.getInput('filtered_changelog'),
-        filtered_changelog_path: path.join(process.env.GITHUB_WORKSPACE, core.getInput('filtered_changelog')),
+        filtered_changelog: filtered_changelog,
+        filtered_changelog_path: path.join(process.env.GITHUB_WORKSPACE, filtered_changelog),
     
-        start_token:        core.getInput('start_token'),
-        end_token:          core.getInput('end_token'),
-        specific_tag:       core.getInput('specific_tag'),
-        use_date:           core.getInput('use_date'),
-        upcoming_release:   core.getInput('upcoming_release'),
-        create_release:     core.getInput('make_release'),
-        update_release:     core.getInput('update_release')
+        start_token:        start_token,
+        end_token:          end_token,
+        specific_tag:       specific_tag,
+        use_date:           use_date,
+        upcoming_release:   upcoming_release,
+        create_release:     create_release,
+        update_release:     update_release
     }  
      
     core.debug(`options.changelog = '${options.changelog}'`);
@@ -13499,7 +13527,7 @@ async function create_release(release_notes, options) {
     version_tag = refParts[refParts.length - 1];
     
 
-    if (options.specific_tag !== false) {
+    if (!specific_tag) {
         version_tag = options.specific_tag;
     } 
     //console.log(version_tag);
@@ -13549,20 +13577,32 @@ async function create_release(release_notes, options) {
 
 async function main() {
     
-    
   try {
-    
-   let options = await parse_options();
-   let release_notes =  await parse_changelog(options);
-   write_filtered_changelog(release_notes, options);
-   let success = await create_release(release_notes, options);
-    
-   core.setOutput("releasenotes", release_notes)
-    
+    let options = await parse_options();
   } catch (error) {
-    core.setFailed(error.message);
+    core.setFailed(`Error parsing options: ${error.message}`);
   }
-  
+
+  let release_notes;
+  try {
+    release_notes =  await parse_changelog(options);
+  } catch (error) {
+    core.setFailed(`Error parsing changelog: ${error.message}`);
+  }
+
+  try {
+    write_filtered_changelog(release_notes, options);
+  } catch (error) {
+    core.setFailed(`Error writing filtered changelog: ${error.message}`);
+  }
+
+  try {
+    let success = await create_release(release_notes, options);
+  } catch (error) {
+    core.setFailed(`Error creating release: ${error.message}`);
+  }
+
+  core.setOutput("releasenotes", release_notes);
   
 }
 

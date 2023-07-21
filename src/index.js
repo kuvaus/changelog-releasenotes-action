@@ -43,7 +43,7 @@ async function parse_options() {
         filtered_changelog: filtered_changelog,
         filtered_changelog_path: path.join(process.env.GITHUB_WORKSPACE, filtered_changelog),
     
-        start_token:        cstart_token,
+        start_token:        start_token,
         end_token:          end_token,
         specific_tag:       specific_tag,
         use_date:           use_date,
