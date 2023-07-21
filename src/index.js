@@ -14,8 +14,31 @@ async function parse_options() {
     }
     
 
+    const  changelog =            core.getInput('changelog') || 'CHANGELOG.md';
+    const  filtered_changelog =   core.getInput('filtered_changelog') || 'FILTERED_CHANGELOG.md';
+    const  start_token =          core.getInput('start_token') || '#### [v';
+    const  end_token =            core.getInput('end_token') || '#### [v';
+    const  specific_tag =         core.getInput('specific_tag') || '';
+    const  use_date =             core.getInput('use_date') || 'false';
+    const  upcoming_release =     core.getInput('upcoming_release') || 'false';
+    const  create_release =       core.getInput('create_release') || 'true';
+    const  update_release =       core.getInput('update_release') || 'true';
+      
+    const options = {
+        changelog,
+        filtered_changelog,
+        start_token,
+        end_token,
+        specific_tag,
+        use_date,
+        upcoming_release,
+        create_release,
+        update_release
+    };
+    
+    /*
     let options = {
-      changelog:            core.getInput('changelog', {required: false}) || 'CHANGELOG.md',
+      changelog:            core.getInput('changelog' || 'CHANGELOG.md',
       filtered_changelog:   core.getInput('filtered_changelog', {required: false}) || 'FILTERED_CHANGELOG.md',
       start_token:          core.getInput('start_token', {required: false}) || '#### [v',
       end_token:            core.getInput('end_token', {required: false}) || '#### [v',
@@ -27,6 +50,7 @@ async function parse_options() {
       //create_release:       core.getInput('create_release', {required: false}) === 'true',
       //update_release:       core.getInput('update_release', {required: false}) === 'true'
     }; 
+    */
 
     options.changelog_path = path.join(file_path, options.changelog);
     options.filtered_changelog_path = path.join(file_path, options.filtered_changelog);
@@ -39,7 +63,7 @@ async function parse_options() {
 async function parse_changelog(options) {
     
     // Change start_token accordingly
-    if (options.upcoming_release) {
+    if (options.upcoming_release  === 'true') {
         options.start_token = "#### ["    
     }
     
@@ -52,7 +76,7 @@ async function parse_changelog(options) {
     
     // skip first 2 lines because those contain the date string
     let skip_n_lines = 2;
-    if (options.use_date) {
+    if (options.use_date  === 'true') {
         skip_n_lines = 0;
     }
 
@@ -130,7 +154,7 @@ async function create_release(release_notes, options) {
     let release = releases.data.find(r => r.tag_name === version_tag); 
        
     // If release exists, update it
-    if(release && options.update_release) {
+    if(release && options.update_release  === 'true') {
       const updated_release = await octokit.rest.repos.updateRelease({
         owner,
         repo,
@@ -140,7 +164,13 @@ async function create_release(release_notes, options) {
       
     }
     // If release does not exist, create it
-    else if (options.create_release) {
+    else if (options.create_release === 'true') {
+        
+        let prerelease_flag = false;
+        if (options.upcoming_release === 'true') { 
+            prerelease_flag = true;
+        }
+        
       const response = await octokit.rest.repos.createRelease({
         owner,
         repo,
@@ -148,7 +178,7 @@ async function create_release(release_notes, options) {
         name: `Release ${version_tag}`,
         body: release_notes,
         draft: false,
-        prerelease: options.upcoming_release,
+        prerelease: prerelease_flag,
       });
     }
     
@@ -165,8 +195,8 @@ async function main() {
   let options = await parse_options();
   let release_notes =  await parse_changelog(options);
   
-    write_filtered_changelog(release_notes, options);
-    let success = await create_release(release_notes, options);
+  write_filtered_changelog(release_notes, options);
+  let success = await create_release(release_notes, options);
 
   core.setOutput("releasenotes", release_notes);
   
