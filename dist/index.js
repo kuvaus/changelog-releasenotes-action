@@ -13417,6 +13417,7 @@ async function parse_options() {
       end_token = '#### [v';
     }
     
+    specific_tag = true;
     if (core.getInput('specific_tag') === 'false') {
         specific_tag = core.getInput('specific_tag');
     }
