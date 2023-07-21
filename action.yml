@@ -50,13 +50,10 @@ outputs:
   releasenotes:
     description: 'The filtered release notes'
 
-# 
-#
-#
-
 # runs:
 #   using: node16
 #   main: dist/index.js
+#
 
 runs:
   using: composite
@@ -70,17 +67,17 @@ runs:
     - name: Action
       run: node ${{ github.action_path }}/dist/index.js
       shell: ${{ (runner.os == 'Windows' && 'pwsh') || 'bash' }}
-      with:
-        changelog:          ${{ inputs.changelog }}
-        filtered_changelog: ${{ inputs.filtered_changelog }}
-        start_token:        ${{ inputs.start_token }}
-        end_token:          ${{ inputs.end_token }}
-        specific_tag:       ${{ inputs.specific_tag }}
-        use_date:           ${{ inputs.use_date }}
-        upcoming_release:   ${{ inputs.upcoming_release }}
-        create_release:     ${{ inputs.create_release }}
-        update_release:     ${{ inputs.update_release }}
-        releasenotes:       ${{ outputs.releasenotes }}
+      env:
+        INPUT_CHANGELOG:          ${{ inputs.changelog }}
+        INPUT_FILTERED_CHANGELOG: ${{ inputs.filtered_changelog }}
+        INPUT_START_TOKEN:        ${{ inputs.start_token }}
+        INPUT_END_TOKEN:          ${{ inputs.end_token }}
+        INPUT_SPECIFIC_TAG:       ${{ inputs.specific_tag }}
+        INPUT_USE_DATE:           ${{ inputs.use_date }}
+        INPUT_UPCOMING_RELEASE:   ${{ inputs.upcoming_release }}
+        INPUT_CREATE_RELEASE:     ${{ inputs.create_release }}
+        INPUT_UPDATE_RELEASE:     ${{ inputs.update_release }}
+        OUTPUT_RELEASENOTES:      ${{ outputs.releasenotes }}
 
 
 
