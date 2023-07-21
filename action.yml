@@ -53,7 +53,9 @@ outputs:
 # runs:
 #   using: node16
 #   main: dist/index.js
-#
+
+
+# This part is temporary to enable Node 18 support
 
 runs:
   using: composite
