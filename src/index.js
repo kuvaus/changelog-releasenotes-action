@@ -29,6 +29,7 @@ async function parse_options() {
     if (core.getInput('specific_tag') === 'false') {
         specific_tag = core.getInput('specific_tag');
     }
+ 
     
     let use_date = core.getInput('use_date') === 'true';
     let upcoming_release = core.getInput('upcoming_release') === 'true';
@@ -39,11 +40,11 @@ async function parse_options() {
     let options = {
 
         changelog:          changelog,
-        changelog_path:     path.join(process.env.GITHUB_WORKSPACE, changelog),
-        //changelog_path:     path.join("./", changelog),
+        //changelog_path:     path.join(process.env.GITHUB_WORKSPACE, changelog),
+        changelog_path:     path.join("./", changelog),
         filtered_changelog: filtered_changelog,
-        filtered_changelog_path: path.join(process.env.GITHUB_WORKSPACE, filtered_changelog),
-        //filtered_changelog_path:     path.join("./", filtered_changelog),
+        //filtered_changelog_path: path.join(process.env.GITHUB_WORKSPACE, filtered_changelog),
+        filtered_changelog_path:     path.join("./", filtered_changelog),
         start_token:        start_token,
         end_token:          end_token,
         specific_tag:       specific_tag,
@@ -52,9 +53,25 @@ async function parse_options() {
         create_release:     create_release,
         update_release:     update_release
     }  
+
+    let default_options = {
+
+        changelog:          "CHANGELOG.md",
+        changelog_path:     path.join(process.env.GITHUB_WORKSPACE, changelog),
+        filtered_changelog: "FILTERED_CHANGELOG.md",
+        filtered_changelog_path: path.join(process.env.GITHUB_WORKSPACE, filtered_changelog),
+        start_token:        "#### [v",
+        end_token:          "#### [v",
+        specific_tag:       false,
+        use_date:           false,
+        upcoming_release:   false,
+        create_release:     true,
+        update_release:     true
+    }  
+
      
     core.debug(`options.changelog = '${options.changelog}'`);
-    return options;
+    return default_options;
     
 }
 

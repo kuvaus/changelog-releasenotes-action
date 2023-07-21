@@ -13,7 +13,7 @@ inputs:
   changelog:
     description: 'The input path of the changelog file. Default: `CHANGELOG.md`'
     required: false
-    default: 'CHANGELOG.md'
+    default: 'CHANGELOGS.md'
 
   filtered_changelog:
     description: 'The output path of the release notes file'
