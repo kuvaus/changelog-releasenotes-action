@@ -1,10 +1,10 @@
 {
   "name": "changelog-releasenotes-action",
-  "version": "1.0.0",
-  "description": "This action generates release notes from changelog.md and uploads them into github release description automatically.",
+  "version": "2.0.0",
+  "description": "Generate release notes from CHANGELOG.md and upload them into github release description",
   "main": "dist/index.js",
   "scripts": {
-    "build": "ncc build index.js -o dist",
+    "build": "ncc build src/index.js -o dist",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
