@@ -22,9 +22,12 @@ jobs:
 
 The simple script above is enough for most usage. It extracts the changes of newest tag from `CHANGELOG.md`, skips the date, and uploads them into github release description body. If no release has been specified, it will create one, but if a release with the tag already exists, it will modify its release description.
 
+> **Note**
+>  Note that the script needs the `GITHUB_TOKEN` for creating or updating the release.
+
 ## Options
 
-Version 2 `kuvaus/changelog-releasenotes-action@v2` uses Node 18. There is also an optional old version 1 `kuvaus/changelog-releasenotes-action@v1` that uses Node 16.
+**Version 2** `kuvaus/changelog-releasenotes-action@v2` uses Node 18. There is also an optional old **Version 1** `kuvaus/changelog-releasenotes-action@v1` that uses Node 16.
 
 
 Optionally there are `inputs` that you can change to modify the actions behavior. The action also `outputs` the filtered release notes as `releasenotes`. Below is a more detailed version with all the possible options:
@@ -117,8 +120,25 @@ Another option is the **auto-changelog** format. You can also use the format in 
 - Version 1.0.0 feature
 ```
 
+Here is a simple example using the  **auto-changelog** format:
 
-If you want to use your own formatting for the `CHANGELOG.md`, just change the `start_token` and `end_token` from the options to your liking.
+```yaml
+jobs:
+  releasenotes:
+    runs-on: ubuntu-latest
+    name: Generate release notes
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      - name: Generate release notes
+        uses: kuvaus/changelog-releasenotes-action@v2
+        with:
+          changelog_format: 'auto-changelog'
+        env:
+          GITHUB_TOKEN: ${{ secrets.DEPLOY_KEY }}
+```
+
+Third option is a non standard format. If you want to use **your own formatting** for the `CHANGELOG.md`, just change the `start_token` and `end_token` from the options to your liking.
 
 
 ## License
