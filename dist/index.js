@@ -13363,11 +13363,11 @@ try {
 
     let options = await parse_options();
     let release_notes =  await parse_changelog(options);
+    console.log(release_notes);
   
     write_filtered_changelog(release_notes, options);
     //release_notes = await read_filtered_changelog(options);
     await create_release(release_notes, options);
-    console.log(release_notes);
     core.setOutput("releasenotes", release_notes);
   
   } catch (error) {

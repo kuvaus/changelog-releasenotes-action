@@ -1,5 +1,5 @@
 
-name: 'Changelog to Releasenotes'
+name: 'Changelog Releasenotes Action'
 description: 'Generate release notes from CHANGELOG.md and upload them into github release description'
 author: 'kuvaus'
 
