@@ -4,6 +4,7 @@ const { write_filtered_changelog, read_filtered_changelog } = require('../src/in
 jest.mock('fs', () => ({
   readFileSync: jest.fn(),
   writeFileSync: jest.fn(),
+  existsSync: jest.fn(),
   promises: {
     access: jest.fn(),
     // Add any other methods from fs.promises that you use
