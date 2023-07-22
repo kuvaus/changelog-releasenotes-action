@@ -6,6 +6,7 @@ const { parse_changelog } = require('../src/index.js'); // replace with your sou
 
 jest.mock('fs', () => ({
   readFileSync: jest.fn(),
+  existsSync: jest.fn(),
   promises: {
     access: jest.fn(),
     // Add any other methods from fs.promises that you use
