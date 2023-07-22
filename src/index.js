@@ -1,4 +1,4 @@
-const fetch = require('node-fetch').default;
+
 const core = require('@actions/core');
 const github = require('@actions/github');
 const fs = require('fs');
@@ -94,8 +94,7 @@ async function read_filtered_changelog(options) {
 async function create_release(release_notes, options) {
 
     const token = process.env.GITHUB_TOKEN; 
-    //const octokit = new Octokit({ auth: token });
-    const octokit = new Octokit({ auth: token, request: {fetch: fetch, } });
+    const octokit = new Octokit({ auth: token });
     
     // Create a new release
     const { owner, repo } = github.context.repo;
