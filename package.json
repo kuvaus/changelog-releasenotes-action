@@ -6,9 +6,17 @@
   "scripts": {
     "build": "ncc build src/index.js -o dist",
     "lint": "eslint .",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest --passWithNoTests",
+    "temptest": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [ "GitHub", "Actions", "JavaScript", "Changelog", "Release", "Notes" ],
+  "keywords": [
+    "GitHub",
+    "Actions",
+    "JavaScript",
+    "Changelog",
+    "Release",
+    "Notes"
+  ],
   "author": "kuvaus",
   "license": "MIT",
   "repository": {
@@ -23,6 +31,7 @@
   },
   "devDependencies": {
     "@vercel/ncc": "^0.36.1",
-    "eslint": "^8.45.0"
+    "eslint": "^8.45.0",
+    "jest": "^29.6.1"
   }
 }

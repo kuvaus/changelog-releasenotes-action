@@ -157,4 +157,22 @@ try {
   }  
 }
 
+
+// run the program
 main();
+
+
+
+
+
+// module exports for jest tests
+module.exports = {
+  parse_options,
+  parse_changelog,
+  write_filtered_changelog,
+  read_filtered_changelog,
+  create_release,
+  main
+};
+
+
