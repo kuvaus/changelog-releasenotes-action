@@ -1,8 +1,12 @@
 const fs = require('fs');
 const { parse_changelog } = require('../src/index.js'); // replace with your source file path
 
-//jest.mock('fs');
+//This is for the old Node16 version
+jest.mock('node-fetch', () => ({
+  default: jest.fn(),
+}));
 
+//jest.mock('fs');
 
 jest.mock('fs', () => ({
   readFileSync: jest.fn(),

@@ -4,6 +4,11 @@ const { parse_options } = require('../src/index.js');
 
 jest.mock('@actions/core');
 
+//This is for the old Node16 version
+jest.mock('node-fetch', () => ({
+  default: jest.fn(),
+}));
+
 describe('parse_options', () => {
   it('should correctly parse options', async () => {
     // Mock the inputs

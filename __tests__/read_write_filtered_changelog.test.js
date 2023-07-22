@@ -1,6 +1,11 @@
 const fs = require('fs');
 const { write_filtered_changelog, read_filtered_changelog } = require('../src/index.js'); // replace with your source file path
 
+//This is for the old Node16 version
+jest.mock('node-fetch', () => ({
+  default: jest.fn(),
+}));
+
 jest.mock('fs', () => ({
   readFileSync: jest.fn(),
   writeFileSync: jest.fn(),
