@@ -1,6 +1,5 @@
 const fs = require('fs');
-const { write_filtered_changelog, read_filtered_changelog, parse_options } = require('../src/index.js'); // replace with your source file path
-const path = require('path');
+const { write_filtered_changelog, read_filtered_changelog } = require('../src/index.js'); // replace with your source file path
 
 //This is for the old Node16 version
 jest.mock('node-fetch', () => ({
@@ -20,15 +19,9 @@ jest.mock('fs', () => ({
 describe('write_filtered_changelog', () => {
   it('should write the release notes to the file correctly', async () => {
     const mockReleaseNotes = 'Mock release notes';
-    let file_path = process.env.GITHUB_WORKSPACE || "./";
-    let options = parse_options;
-    options.changelog = 'CHANGELOG.md';
-    options.changelog_path = path.join(file_path, options.changelog);
-    options.filtered_changelog = 'READ_FILTERED_CHANGELOG.md';
-    options.filtered_changelog_path = path.join(file_path, options.filtered_changelog);
-    //const options = {
-    //  filtered_changelog: 'READ_FILTERED_CHANGELOG.md',
-    //};
+    const options = {
+      filtered_changelog_path: 'filtered_changelog.md',
+    };
 
     await write_filtered_changelog(mockReleaseNotes, options);
 
@@ -39,15 +32,9 @@ describe('write_filtered_changelog', () => {
 describe('read_filtered_changelog', () => {
   it('should read the release notes from the file correctly', async () => {
     const mockReleaseNotes = 'Mock release notes';
-    let file_path = process.env.GITHUB_WORKSPACE || "./";
-    let options = parse_options;
-    options.changelog = 'CHANGELOG.md';
-    options.changelog_path = path.join(file_path, options.changelog);
-    options.filtered_changelog = 'READ_FILTERED_CHANGELOG.md';
-    options.filtered_changelog_path = path.join(file_path, options.filtered_changelog);
-    //options = {
-    //  filtered_changelog: 'READ_FILTERED_CHANGELOG.md',
-    //};
+    const options = {
+      filtered_changelog_path: 'filtered_changelog.md',
+    };
 
     fs.readFileSync.mockReturnValue(mockReleaseNotes);
 

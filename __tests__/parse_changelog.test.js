@@ -10,6 +10,7 @@ jest.mock('node-fetch', () => ({
 
 jest.mock('fs', () => ({
   readFileSync: jest.fn(),
+  writeFileSync: jest.fn(),
   existsSync: jest.fn(),
   promises: {
     access: jest.fn(),
