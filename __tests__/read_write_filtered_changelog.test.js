@@ -20,7 +20,7 @@ describe('write_filtered_changelog', () => {
   it('should write the release notes to the file correctly', async () => {
     const mockReleaseNotes = 'Mock release notes';
     const options = {
-      filtered_changelog_path: 'filtered_changelog.md',
+      filtered_changelog_path: 'FILTERED_CHANGELOG.md',
     };
 
     await write_filtered_changelog(mockReleaseNotes, options);
@@ -33,7 +33,7 @@ describe('read_filtered_changelog', () => {
   it('should read the release notes from the file correctly', async () => {
     const mockReleaseNotes = 'Mock release notes';
     const options = {
-      filtered_changelog_path: 'filtered_changelog.md',
+      filtered_changelog_path: 'FILTERED_CHANGELOG.md',
     };
 
     fs.readFileSync.mockReturnValue(mockReleaseNotes);
