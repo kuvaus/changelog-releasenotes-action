@@ -8,6 +8,14 @@ on:
   pull_request:
 
 jobs:
+  show-env:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Show event details
+      run: |
+        echo ${{ github.event_name }}
+        echo ${{ github.event.action }}
+        cat $GITHUB_EVENT_PATH
   build:
 
     runs-on: ubuntu-latest
@@ -29,4 +37,6 @@ jobs:
     - run: npm run build --if-present
     - run: npm run lint
     - run: npm test
+
+
 
