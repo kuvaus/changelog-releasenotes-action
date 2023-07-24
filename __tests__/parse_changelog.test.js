@@ -1,4 +1,5 @@
 const fs = require('fs');
+const path = require('path');
 const { parse_changelog } = require('../src/index.js'); // replace with your source file path
 
 //This is for the old Node16 version
