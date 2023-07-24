@@ -93,8 +93,8 @@ async function read_filtered_changelog(options) {
 
 async function create_release(release_notes, options) {
 
-    if (!process.env.GITHUB_TOKEN || !process.env.GITHUB_REPOSITORY) {
-        console.log("GITHUB_TOKEN or GITHUB_REPOSITORY environment variable is not set. Cannot make/update release.");
+    if (!process.env.GITHUB_TOKEN) {
+        console.log("GITHUB_TOKEN environment variable is not set. Cannot make/update release.");
         return false;
     }
 
@@ -164,9 +164,9 @@ try {
 
 
 // run the program
-main();
-
-
+if (require.main === module) {
+    main();
+}
 
 
 
