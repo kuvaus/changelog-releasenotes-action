@@ -46,8 +46,35 @@ outputs:
   releasenotes:
     description: 'The filtered release notes'
 
+#runs:
+#  using: node20
+#  main: dist/index.js
+
+
+# This part is temporary to enable Node 18 support
+
 runs:
-  using: node20
-  main: dist/index.js
+  using: composite
+  steps:
 
+    - name: Setup Node
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ inputs.node-version || '20' }}
 
+    - name: Action
+      run: |
+        node ${{ github.action_path }}/dist/index.js
+        echo "::set-output name=releasenotes::value1"
+      shell: ${{ (runner.os == 'Windows' && 'pwsh') || 'bash' }}
+      env:
+        INPUT_CHANGELOG:          ${{ inputs.changelog }}
+        INPUT_FILTERED_CHANGELOG: ${{ inputs.filtered_changelog }}
+        INPUT_CHANGELOG_FORMAT:   ${{ inputs.changelog_format }}
+        INPUT_START_TOKEN:        ${{ inputs.start_token }}
+        INPUT_END_TOKEN:          ${{ inputs.end_token }}
+        INPUT_SPECIFIC_TAG:       ${{ inputs.specific_tag }}
+        INPUT_SKIP_N_LINES:       ${{ inputs.skip_n_lines }}
+        INPUT_UPCOMING_RELEASE:   ${{ inputs.upcoming_release }}
+        INPUT_CREATE_RELEASE:     ${{ inputs.create_release }}
+        INPUT_UPDATE_RELEASE:     ${{ inputs.update_release }}
