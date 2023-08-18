@@ -27,7 +27,7 @@ The simple script above is enough for most usage. It extracts the changes of new
 
 ## Options
 
-**Version 2** `kuvaus/changelog-releasenotes-action@v2` uses Node 18. There is also an optional old **Version 1** `kuvaus/changelog-releasenotes-action@v1` that uses Node 16.
+**Version 2** `kuvaus/changelog-releasenotes-action@v2` uses Node 20. There is also an optional old **Version 1** `kuvaus/changelog-releasenotes-action@v1` that uses Node 16.
 
 
 Optionally there are `inputs` that you can change to modify the actions behavior. The action also `outputs` the filtered release notes as `releasenotes`. Below is a more detailed version with all the possible options:
