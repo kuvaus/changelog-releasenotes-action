@@ -1,3 +1,4 @@
+
 const core = require('@actions/core');
 const path = require('path');
 const { parse_options } = require('../src/index.js');

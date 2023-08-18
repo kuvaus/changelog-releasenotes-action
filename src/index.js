@@ -50,9 +50,10 @@ async function parse_changelog(options) {
     let index = 0;
     //let extracted_version_tag;
     
-
-    const lines = fs.readFileSync(options.changelog_path, 'utf-8').split('\n');
-    for(let line of lines) {
+    // empty string if undefined
+    const lines = fs.readFileSync(options.changelog_path, 'utf-8') || '';  // empty string if undefined
+    const splitlines = lines.split('\n') || [];
+    for(let line of splitlines) {
       index += 1;
       
       if(line.startsWith(options.end_token) && started_processing) {
@@ -80,7 +81,6 @@ async function parse_changelog(options) {
 async function write_filtered_changelog(release_notes, options) {
 
     fs.writeFileSync(options.filtered_changelog_path, release_notes);
-    
 }
 
 async function read_filtered_changelog(options) {
@@ -93,7 +93,12 @@ async function read_filtered_changelog(options) {
 
 async function create_release(release_notes, options) {
 
-    const token = process.env.GITHUB_TOKEN; 
+    if (!process.env.GITHUB_TOKEN) {
+        console.log("GITHUB_TOKEN environment variable is not set. Cannot make/update release.");
+        return false;
+    }
+
+    const token = process.env.GITHUB_TOKEN;
     const octokit = new Octokit({ auth: token });
     
     // Create a new release
@@ -159,9 +164,9 @@ try {
 
 
 // run the program
-main();
-
-
+if (require.main === module) {
+    main();
+}
 
 
 
