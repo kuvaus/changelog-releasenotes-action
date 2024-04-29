@@ -5,7 +5,7 @@
 
 #### [v2.0.2](https://github.com/kuvaus/changelog-releasenotes-action/releases/tag/v2.0.2)
 
-> 29 April 2024
+> 30 April 2024
 
 - Better node 20 support
 
