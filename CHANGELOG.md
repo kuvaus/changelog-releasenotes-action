@@ -3,6 +3,12 @@
 
 #### [Upcoming](https///github.com/kuvaus/changelog-releasenotes-action/compare/v2.0.1...HEAD)
 
+#### [v2.0.2](https://github.com/kuvaus/changelog-releasenotes-action/releases/tag/v2.0.2)
+
+> 29 April 2024
+
+- Better node 20 support
+
 #### [v2.0.1](https://github.com/kuvaus/changelog-releasenotes-action/releases/tag/v2.0.1)
 
 > 18 August 2023

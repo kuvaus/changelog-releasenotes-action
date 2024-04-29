@@ -1,6 +1,6 @@
 {
   "name": "changelog-releasenotes-action",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "Generate release notes from CHANGELOG.md and upload them into github release description",
   "main": "dist/index.js",
   "scripts": {
