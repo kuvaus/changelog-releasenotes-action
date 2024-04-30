@@ -1,7 +1,13 @@
 
 ## Changelog
 
-#### [Upcoming](https///github.com/kuvaus/changelog-releasenotes-action/compare/v2.0.2...HEAD)
+#### [Upcoming](https///github.com/kuvaus/changelog-releasenotes-action/compare/v2.0.3...HEAD)
+
+#### [v2.0.3](https://github.com/kuvaus/changelog-releasenotes-action/releases/tag/v2.0.3)
+
+> 30 April 2024
+
+- Increase actions/checkout and actions/setup-node versions to v4
 
 #### [v2.0.2](https://github.com/kuvaus/changelog-releasenotes-action/releases/tag/v2.0.2)
 
