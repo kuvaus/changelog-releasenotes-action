@@ -13,7 +13,7 @@ jobs:
     name: Generate release notes
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Generate release notes
         uses: kuvaus/changelog-releasenotes-action@v2
         env:
@@ -39,7 +39,7 @@ jobs:
     name: Generate release notes
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Generate release notes
         uses: kuvaus/changelog-releasenotes-action@v2
         with:
@@ -129,7 +129,7 @@ jobs:
     name: Generate release notes
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Generate release notes
         uses: kuvaus/changelog-releasenotes-action@v2
         with:
